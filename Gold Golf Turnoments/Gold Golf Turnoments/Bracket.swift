@@ -15,26 +15,27 @@ struct LeaderboardView: View {
         NavigationView {
             List {
                 ForEach(viewModel.players) { player in
-                    HStack {
-                        Text("#\(viewModel.position(for: player))")
-                            .font(.headline)
-                            .frame(width: 40)
+                    
+                    NavigationLink(destination: ScorecardView(LeaderboardViewModel: viewModel, player: player)) {
                         
-                        Text(player.name)
-                            .font(.title3)
-                        
-                        Spacer()
-                        
-                        Text("\(player.totalScore)")
-                            .bold()
+                        HStack {
+                            Text("#\(viewModel.position(for: player))")
+                                .font(.headline)
+                                .frame(width: 40)
+                            
+                            Text(player.name)
+                                .font(.title3)
+                            
+                            Spacer()
+                            
+                            Text("\(player.totalScore)")
+                                .bold()
+                        }
                     }
                 }
             }
             .navigationTitle("Leaderboard")
         }
     }
-    NavigationLink("Enter Score") {
-        ScorecardView(leaderboardVM: viewModel, player: player)
-    }
-
 }
+

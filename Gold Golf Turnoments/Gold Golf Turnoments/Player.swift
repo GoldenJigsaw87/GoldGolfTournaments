@@ -4,15 +4,15 @@
 //
 //  Created by Mark Jensen on 3/6/26.
 //
-
 import SwiftUI
+import Foundation
 
-struct Player: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+struct Player: Identifiable {
+    let id = UUID()
+    var name: String
+    var score: [Int]
 }
 
-#Preview {
-    Player()
+var totalScore: Int {
+    score.reduce(0, +)
 }

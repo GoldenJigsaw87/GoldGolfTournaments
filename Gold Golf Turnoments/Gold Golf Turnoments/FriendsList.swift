@@ -7,12 +7,42 @@
 
 import SwiftUI
 
-struct FriendsList: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+struct FriendsView: View {
 
-#Preview {
-    FriendsList()
+    var friends = [
+        ("Tommy", 86, "+2"),
+        ("Jake", 74, "-1"),
+        ("Ryan", 92, "+6")
+    ]
+
+    var body: some View {
+
+        VStack {
+
+            Text("Friends")
+                .font(.largeTitle)
+
+            List {
+
+                HStack {
+                    Text("Name")
+                    Spacer()
+                    Text("Holes Played")
+                    Spacer()
+                    Text("Under/Over")
+                }
+
+                ForEach(friends, id:\.0) { friend in
+
+                    HStack {
+                        Text(friend.0)
+                        Spacer()
+                        Text("\(friend.1)")
+                        Spacer()
+                        Text(friend.2)
+                    }
+                }
+            }
+        }
+    }
 }

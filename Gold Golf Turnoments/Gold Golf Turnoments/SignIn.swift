@@ -7,12 +7,30 @@
 
 import SwiftUI
 
-struct SignIn: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+struct SignInView: View {
 
-#Preview {
-    SignIn()
+    @State private var username = ""
+    @State private var password = ""
+
+    var body: some View {
+
+        VStack(spacing:20) {
+
+            Text("Sign In")
+                .font(.largeTitle)
+
+            TextField("Username", text: $username)
+                .textFieldStyle(.roundedBorder)
+
+            SecureField("Password", text: $password)
+                .textFieldStyle(.roundedBorder)
+
+            Button("Login") {
+
+            }
+
+            Spacer()
+        }
+        .padding()
+    }
 }

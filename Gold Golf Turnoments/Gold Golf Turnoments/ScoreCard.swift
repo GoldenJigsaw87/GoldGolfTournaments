@@ -5,59 +5,64 @@
 //  Created by Mark Jensen on 2/3/26.
 //
 
+import SwiftUI
+
 struct ScorecardView: View {
-    
-    @ObservedObject var leaderboardVM: LeaderboardViewModel
-    @StateObject var scoreVM: ScorecardViewModel
-    
-    init(leaderboardVM: LeaderboardViewModel, player: Player) {
-        self.leaderboardVM = leaderboardVM
-        _scoreVM = StateObject(
-            wrappedValue: ScorecardViewModel(
-                leaderboardVM: leaderboardVM,
-                player: player
-            )
-        )
+
+    @State private var scores: [HoleScore] = (1...18).map {
+        HoleScore(hole: $0, par: 4, playerScores: [0,0])
     }
-    
+
     var body: some View {
-        VStack(spacing: 20) {
-            
-            Text("Hole \(scoreVM.currentHole.number)")
-                .font(.largeTitle)
-            
-            // PAR EDITOR
-            Stepper(
-                "Par: \(scoreVM.currentHole.par)",
-                value: Binding(
-                    get: { scoreVM.currentHole.par },
-                    set: { scoreVM.updatePar(for: scoreVM.currentHoleIndex, par: $0) }
-                ),
-                in: 3...6
-            )
-            .padding()
-            
-            // STROKE INPUT
-            Stepper("Strokes: \(scoreVM.currentStrokes)",
-                    value: $scoreVM.currentStrokes,
-                    in: 1...12)
+
+        VStack {
+
+            Text("Course Name")
+                .font(.title)
+
+            ScrollView {
+
+                VStack {
+
+                    HStack {
+                        Text("Hole").frame(width: 40)
+                        Text("Par").frame(width: 40)
+                        Text("P1").frame(width: 110)
+                        Text("P2").frame(width: 110)
+                    }
+                    .font(.headline)
+
+                    Divider()
+
+                    ForEach($scores) { $hole in
+
+                        HStack {
+                            Text("\(hole.hole)")
+                                .frame(width: 40)
+
+                            Text("\(hole.par)")
+                                .frame(width: 40)
+
+                            Stepper("", value: $hole.playerScores[0], in: 0...15)
+                                .frame(width: 80)
+
+                            Text("\(hole.playerScores[0])")
+                                .frame(width: 30)
+
+                            Stepper("", value: $hole.playerScores[1], in: 0...15)
+                                .frame(width: 80)
+
+                            Text("\(hole.playerScores[1])")
+                                .frame(width: 30)
+                        
+
+                        }
+                        .padding(.vertical,5)
+                    }
+
+                }
                 .padding()
-            
-            // Submit Score Button
-            Button(action: scoreVM.submitScore) {
-                Text(scoreVM.isLastHole ? "Finish Round" : "Save & Next Hole")
-                    .bold()
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
             }
-            .padding(.horizontal)
-            
-            Spacer()
         }
-        .navigationTitle(scoreVM.player.name)
-        .padding()
     }
 }

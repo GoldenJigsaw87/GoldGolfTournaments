@@ -6,10 +6,17 @@
 //
 
 import SwiftUI
+import Foundation
 
+struct HoleScore: Identifiable {
+    let id = UUID()
+    var hole: Int
+    var par: Int
+    var playerScores: [Int]
+}
 struct CurrentHole: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Current hole")
     }
 }
 
