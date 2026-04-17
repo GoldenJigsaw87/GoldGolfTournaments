@@ -7,40 +7,17 @@
 
 import SwiftUI
 
-struct FriendsView: View {
-
-    var friends = [
-        ("Tommy", 86, "+2"),
-        ("Jake", 74, "-1"),
-        ("Ryan", 92, "+6")
-    ]
-
+struct FriendsList: View {
+    @State private var friends: [User_DEP] = []
+    
     var body: some View {
-
-        VStack {
-
-            Text("Friends")
-                .font(.largeTitle)
-
-            List {
-
-                HStack {
-                    Text("Name")
-                    Spacer()
-                    Text("Holes Played")
-                    Spacer()
-                    Text("Under/Over")
-                }
-
-                ForEach(friends, id:\.0) { friend in
-
-                    HStack {
-                        Text(friend.0)
-                        Spacer()
-                        Text("\(friend.1)")
-                        Spacer()
-                        Text(friend.2)
-                    }
+        List(friends) { friend in
+            Text(friend.username)
+        }
+        .onAppear {
+            APIService.shared.getFriends(userID: "USER_ID_HERE") { fetched in
+                DispatchQueue.main.async {
+                    self.friends = fetched
                 }
             }
         }
